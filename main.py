@@ -15,7 +15,7 @@ import nn_model
 class DrawingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("DigitRec")
+        self.root.title("Digit Recognizer")
 
         self.canvas_size = 280
         self.cell_size = 1
