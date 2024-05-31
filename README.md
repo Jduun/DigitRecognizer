@@ -11,3 +11,7 @@ In my research, I study the following classification algorithms:
 I use CNN in my application for digit recognition:
 
 ![](files/app.gif)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
