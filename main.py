@@ -36,7 +36,7 @@ class DrawingApp:
         self.save_button = tk.Button(self.root, text="Predict", command=self.predict_digit)
         self.save_button.pack()
 
-        self.prediction_label = tk.Label(self.root, text="Predicted Label: None")
+        self.prediction_label = tk.Label(self.root, text="Predicted Digit: None")
         self.prediction_label.pack()
 
     def paint(self, event):
@@ -72,7 +72,7 @@ class DrawingApp:
             y_pred = model(tensor_image.to(device))
             # Find the index of the maximum logit to get the predicted label
             _, predicted_label = torch.max(y_pred, 1)
-        self.prediction_label.config(text=f"Predicted Label: {predicted_label.item()}")
+        self.prediction_label.config(text=f"Predicted Digit: {predicted_label.item()}")
 
 
 if __name__ == "__main__":
