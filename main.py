@@ -52,10 +52,12 @@ class DrawingApp:
             # This is done to bring the drawn image closer to MNIST
             for y in range(cell_y, cell_y + 20):
                 for x in range(cell_x, cell_x + 20):
-                    self.grid[y, x] = 255
+                    if 0 <= x < self.grid_size and 0 <= y < self.grid_size:
+                        self.grid[y, x] = 255
             for y in range(cell_y, cell_y + 17):
                 for x in range(cell_x, cell_x + 17):
-                    self.grid[y, x] = 160
+                    if 0 <= x < self.grid_size - 1 and 0 <= y < self.grid_size:
+                        self.grid[y, x] = 160
 
     def clear_canvas(self):
         self.canvas.delete("all")
@@ -63,7 +65,6 @@ class DrawingApp:
 
     def predict_digit(self):
         scaled_array = self.grid.reshape((28, 10, 28, 10)).mean(axis=(1, 3)).astype(np.uint8)
-        print(scaled_array)
         # Adding the size of the batch and channel
         tensor_image = torch.tensor(scaled_array, dtype=torch.float).unsqueeze(0).unsqueeze(0)
         # Make prediction
