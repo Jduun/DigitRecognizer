@@ -43,19 +43,21 @@ class DrawingApp:
         x, y = event.x, event.y
         cell_x, cell_y = x // self.cell_size, y // self.cell_size
 
+        line_width = 16
+        width_coef = 0.7
         if 0 <= cell_x < self.grid_size and 0 <= cell_y < self.grid_size:
             self.canvas.create_rectangle(
                 cell_x * self.cell_size, cell_y * self.cell_size,
-                (cell_x + 20) * self.cell_size, (cell_y + 20) * self.cell_size,
+                (cell_x + line_width) * self.cell_size, (cell_y + line_width) * self.cell_size,
                 fill=self.pen_color, outline=self.pen_color
             )
             # This is done to bring the drawn image closer to MNIST
-            for y in range(cell_y, cell_y + 20):
-                for x in range(cell_x, cell_x + 20):
+            for y in range(cell_y, cell_y + line_width):
+                for x in range(cell_x, cell_x + line_width):
                     if 0 <= x < self.grid_size and 0 <= y < self.grid_size:
                         self.grid[y, x] = 255
-            for y in range(cell_y, cell_y + 17):
-                for x in range(cell_x, cell_x + 17):
+            for y in range(cell_y, cell_y + int(line_width * width_coef)):
+                for x in range(cell_x, cell_x + int(line_width * width_coef)):
                     if 0 <= x < self.grid_size - 1 and 0 <= y < self.grid_size:
                         self.grid[y, x] = 160
 
@@ -65,6 +67,14 @@ class DrawingApp:
 
     def predict_digit(self):
         scaled_array = self.grid.reshape((28, 10, 28, 10)).mean(axis=(1, 3)).astype(np.uint8)
+        '''
+        # Input of array representation of image:
+        for sub_array in list(scaled_array):
+            for el in sub_array:
+                print("{:5d}".format(el), end='')
+            print()
+        print()
+        '''
         # Adding the size of the batch and channel
         tensor_image = torch.tensor(scaled_array, dtype=torch.float).unsqueeze(0).unsqueeze(0)
         # Make prediction
